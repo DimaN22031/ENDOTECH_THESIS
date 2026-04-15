@@ -1,67 +1,179 @@
-\chapter{Discussion and Development (Example Chapter~4)}
-\label{chap:discussion}
+\chapter{Firebase Database Design and Management}
 
-% --- IMPORTANT NOTE FOR STUDENTS ---
-% This chapter is optional and highly flexible.
-% Some theses combine discussion with results (Chapter~3).
-% Others use it to present proposals, improvements, or an evaluation.
-% Always adapt the content/structure to your project and check with your supervisor.
+\section{Introduction}
 
-This chapter may serve several possible purposes depending on the nature of your work:  
-(1) discuss your empirical findings in more depth,  
-(2) compare results against theory or prior work,  
-(3) propose improvements, models, or design solutions, or  
-(4) evaluate feasibility or efficiency.  
-If your project is small-scale or self-contained, you may skip this chapter and move directly to the Conclusions.
+This chapter describes the design, structure, and management of the database used in the ENDOTECH system. The system utilizes Firebase Cloud Firestore as the primary database solution, enabling real-time data synchronization and scalable cloud storage.
 
-\section{Extended Discussion (Optional Example Section)}
-\label{sec:discussion-extended}
-Here you may reflect more deeply on your results than in Chapter~\ref{chap:empirical}.  
-Possible angles include:
+The database plays a critical role in ensuring data consistency, availability, and efficient processing of inventory and sales operations.
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Comparing results with other studies or benchmarks.  
-  \item Highlighting unexpected patterns or anomalies.  
-  \item Theoretical implications: how your findings support or contradict existing models.  
+\section{Firebase Overview and Selection Rationale}
+
+Firebase is a Backend-as-a-Service (BaaS) platform developed by Google. It provides a set of cloud-based tools for application development, including authentication, hosting, and real-time databases.
+
+Cloud Firestore was selected as the database for the ENDOTECH system due to the following advantages:
+
+\begin{itemize}
+    \item Real-time data synchronization across multiple devices;
+    \item High scalability without manual server management;
+    \item Flexible NoSQL document-based data model;
+    \item Built-in authentication and security rules;
+    \item Offline support for mobile applications.
 \end{itemize}
 
-\paragraph{Tip.} If your work is primarily an implementation, you may instead use this section to evaluate design trade-offs, architectural choices, or lessons learned.
+These features make Firebase particularly suitable for cross-platform applications developed with Flutter.
 
-\section{Proposals / Improvements (Optional Example Section)}
-\label{sec:proposals}
-In many IT theses, the contribution is not only empirical but also practical.  
-Here you can suggest:
+\section{Database Architecture}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Proposed system modifications or design improvements.  
-  \item Prototype features, extensions, or optimizations.  
-  \item Conceptual models or frameworks based on your findings.  
+The database follows a NoSQL document-oriented structure. Data is organized into collections and documents rather than tables and rows.
+
+Each collection contains multiple documents, and each document consists of key-value pairs.
+
+The main collections in the ENDOTECH system include:
+
+\begin{itemize}
+    \item \texttt{users}
+    \item \texttt{inventory}
+    \item \texttt{sales}
+    \item \texttt{categories}
+    \item \texttt{suppliers}
 \end{itemize}
 
-Illustrate with diagrams, mockups, or tables if useful. Remember: these are suggestions, not required elements.
+This structure allows flexible and scalable data storage.
 
-\section{Evaluation of Feasibility / Efficiency (Optional Example Section)}
-\label{sec:evaluation}
-Sometimes it makes sense to estimate how well your proposal would work in practice.  
-Examples:
+\section{Data Model and Structure}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Performance evaluation (e.g., runtime, memory use, scalability).  
-  \item Cost/benefit trade-offs (time, resources, usability).  
-  \item Risks and limitations of implementation.  
+\subsection{Users Collection}
+
+The \texttt{users} collection stores information about system users.
+
+\begin{lstlisting}[language=JSON, caption=User Document Structure]
+{
+  "userId": "string",
+  "email": "string",
+  "displayName": "string",
+  "role": "admin | manager | staff",
+  "createdAt": "timestamp",
+  "lastLogin": "timestamp"
+}
+\end{lstlisting}
+
+\subsection{Inventory Collection}
+
+The \texttt{inventory} collection contains medical equipment data.
+
+\begin{lstlisting}[language=JSON, caption=Inventory Document Structure]
+{
+  "itemId": "string",
+  "name": "string",
+  "description": "string",
+  "categoryId": "reference",
+  "supplierId": "reference",
+  "quantity": "number",
+  "price": "number",
+  "minStockLevel": "number",
+  "createdAt": "timestamp",
+  "updatedAt": "timestamp"
+}
+\end{lstlisting}
+
+\subsection{Sales Collection}
+
+The \texttt{sales} collection records transactions.
+
+\begin{lstlisting}[language=JSON, caption=Sales Document Structure]
+{
+  "saleId": "string",
+  "userId": "reference",
+  "items": [
+    {
+      "itemId": "reference",
+      "quantity": "number",
+      "price": "number"
+    }
+  ],
+  "totalAmount": "number",
+  "timestamp": "timestamp"
+}
+\end{lstlisting}
+
+\section{Data Relationships and Logical Model}
+
+Although Firestore is a NoSQL database, logical relationships are maintained through references.
+
+\begin{itemize}
+    \item Each sale is linked to a user;
+    \item Sales contain references to inventory items;
+    \item Inventory items are associated with categories and suppliers;
+    \item Users are assigned roles for access control.
 \end{itemize}
 
-This section can be skipped if it does not apply to your project.
+This approach ensures flexibility while maintaining logical consistency.
 
-\section{Sub-Conclusions (for Chapter~4)}
-\label{sec:subconcl4}
-Close with a short synthesis that ties together the discussion and proposals.  
-Example points:
+\section{Database Operations}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item What your deeper reflection adds beyond the raw results.  
-  \item Which improvements or models are most promising.  
-  \item How these insights prepare the way for the \textbf{Conclusions chapter}.  
+\subsection{Reading Data}
+
+\begin{lstlisting}[language=Dart]
+FirebaseFirestore.instance
+  .collection('inventory')
+  .orderBy('name')
+  .snapshots();
+\end{lstlisting}
+
+\subsection{Writing Data}
+
+\begin{lstlisting}[language=Dart]
+FirebaseFirestore.instance.collection('sales').add({
+  'userId': FirebaseAuth.instance.currentUser!.uid,
+  'totalAmount': total,
+  'timestamp': FieldValue.serverTimestamp(),
+});
+\end{lstlisting}
+
+\subsection{Real-Time Updates}
+
+Firestore provides real-time listeners:
+
+\begin{lstlisting}[language=Dart]
+FirebaseFirestore.instance
+  .collection('inventory')
+  .snapshots();
+\end{lstlisting}
+
+\section{Security and Access Control}
+
+Security rules ensure that only authorized users can access data.
+
+\begin{lstlisting}[language=JavaScript]
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /inventory/{itemId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+\end{lstlisting}
+
+These rules restrict access to authenticated users.
+
+\section{Performance Optimization}
+
+To improve performance, the following strategies are used:
+
+\begin{itemize}
+    \item Indexing frequently queried fields;
+    \item Minimizing data transfer;
+    \item Using real-time listeners efficiently;
+    \item Implementing local caching.
 \end{itemize}
 
-\paragraph{Reminder.} The “big picture” statements — confirmation of tasks, validation of the hypothesis, and achievement of the aim — belong in the \textbf{Conclusions chapter}, not here.
+\section{Backup and Data Management}
+
+Firebase provides tools for data backup and export. Regular backups can be performed using Firebase CLI and Google Cloud services.
+
+This ensures data safety and recovery in case of failures.
+
+\section{Conclusion}
+
+The database design of the ENDOTECH system provides a scalable, flexible, and efficient solution for managing inventory and sales data. The use of Firebase Cloud Firestore enables real-time synchronization, secure data access, and seamless integration with the Flutter application.
