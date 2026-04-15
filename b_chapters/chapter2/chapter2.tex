@@ -2,34 +2,43 @@
 
 \section{Overview of the System}
 
-The ENDOTECH system is designed as a cross-platform solution for managing inventory and sales of medical equipment. The system supports three main platforms: Windows desktop, web interface, and Android mobile devices.
+The ENDOTECH system is designed as a cross-platform mobile solution for managing inventory and sales of medical equipment. The system is implemented using Flutter for the user interface and Firebase as the backend platform.
 
-The architecture of the system ensures flexibility, scalability, and ease of use for different types of users.
+This approach ensures scalability, real-time data synchronization, and accessibility across different devices.
 
 \section{System Architecture}
 
-The system follows a multi-tier architecture consisting of the following components:
+The system follows a client-server architecture. The Flutter application acts as a client, while Firebase provides backend services.
+
+The architecture consists of the following components:
 
 \begin{itemize}
-    \item User Interface (UI) – provides interaction between the user and the system;
-    \item Application Layer – contains the business logic of the system;
-    \item Database Layer – responsible for storing and managing data.
+    \item User Interface Layer – responsible for user interaction and data visualization;
+    \item Application Layer – handles business logic and state management using the Provider package;
+    \item Backend Layer – implemented using Firebase services such as Authentication and Cloud Firestore.
 \end{itemize}
 
-This architecture allows the system to be modular and easily extendable.
+This architecture allows the system to be modular, scalable, and easy to maintain.
 
-\section{Technologies Used}
+\section{Technology Selection}
 
-The following technologies were used in the development of the system:
+The ENDOTECH system is implemented using modern technologies that support cross-platform development and real-time data processing.
+
+The main technologies include:
 
 \begin{itemize}
-    \item Windows application – developed using modern desktop technologies;
-    \item Web application – developed using HTML, CSS, and JavaScript;
-    \item Android application – developed for mobile devices;
-    \item Database – used for storing product, sales, and user data.
+    \item Flutter – for building cross-platform mobile applications;
+    \item Dart programming language – for implementing application logic;
+    \item Firebase Authentication – for user authentication and access control;
+    \item Cloud Firestore – for real-time NoSQL database management;
+    \item Provider – for state management and separation of concerns.
 \end{itemize}
 
-These technologies ensure compatibility across multiple platforms.
+This technology stack was selected because it enables rapid development, reduces maintenance costs, and provides seamless integration between frontend and backend.
+
+Compared to native development, Flutter allows the use of a single codebase for multiple platforms, significantly reducing development time.
+
+Cloud Firestore was chosen instead of a relational database due to its flexible document-based structure, real-time data synchronization, and support for offline functionality.
 
 \section{System Functionality}
 
@@ -37,26 +46,20 @@ The system provides the following main features:
 
 \begin{itemize}
     \item Inventory management (adding, editing, deleting products);
-    \item Sales tracking and reporting;
-    \item Stock level monitoring;
-    \item User-friendly interface for different devices;
-    \item Data synchronization between platforms.
+    \item Sales tracking and transaction management;
+    \item Real-time stock monitoring;
+    \item User authentication and role-based access control;
+    \item Synchronization of data across devices.
 \end{itemize}
 
-\section{Database Design}
+\section{Data Flow and Interaction}
 
-The database is designed to store key information such as products, categories, sales transactions, and users.
+The system operates using real-time communication between the client application and the Firebase backend.
 
-The main entities include:
-\begin{itemize}
-    \item Products;
-    \item Categories;
-    \item Sales;
-    \item Users.
-\end{itemize}
+User actions in the Flutter application trigger database operations in Cloud Firestore. Changes in the database are immediately reflected in the user interface through real-time listeners.
 
-The database structure ensures data consistency and efficient data retrieval.
+This ensures data consistency and up-to-date information across all devices.
 
 \section{Conclusion}
 
-The designed system architecture provides a solid foundation for the development of the ENDOTECH system. It ensures scalability, flexibility, and efficient data management across all supported platforms.
+The designed system architecture provides a robust foundation for the ENDOTECH system. The use of Flutter and Firebase ensures scalability, flexibility, and efficient data management, making the system suitable for real-world medical equipment inventory management.
