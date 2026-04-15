@@ -1,63 +1,88 @@
-\chapter{System Implementation}
+\chapter{System Implementation and Development}
 
-\section{Overview of Implementation}
+This chapter presents the implementation of the ENDOTECH system, a cross-platform inventory and sales management solution for medical equipment.
 
-The ENDOTECH system was implemented as a cross-platform solution supporting Windows desktop, web, and Android platforms. The goal of implementation was to create a unified system that provides consistent functionality across all devices.
+\section{Project Structure and Technologies}
 
-\section{Windows Application}
+The system is implemented using Flutter and Firebase.
 
-The Windows version of the system provides a full-featured interface for managing inventory and sales. It allows users to:
+The application is structured as follows:
 
 \begin{itemize}
-    \item Add, edit, and delete products;
-    \item Manage stock levels;
-    \item Record sales transactions;
-    \item Generate reports.
+    \item \texttt{lib/} – contains main application logic (screens, models, providers, services);
+    \item \texttt{main.dart} – entry point of the application;
+    \item Firebase initialization using \texttt{Firebase.initializeApp()};
 \end{itemize}
 
-The desktop application is optimized for performance and ease of use in office environments.
+State management is handled using the Provider package, including:
 
-\section{Web Application}
-
-The web version of the system allows users to access the platform through a browser without installing additional software.
-
-Key features include:
 \begin{itemize}
-    \item Remote access to inventory data;
-    \item Real-time updates;
-    \item Responsive design for different screen sizes.
+    \item AuthProvider;
+    \item InventoryProvider;
+    \item SalesProvider;
 \end{itemize}
 
-This ensures accessibility from any location.
+\section{System Architecture Overview}
 
-\section{Android Application}
+The system follows a client-server architecture, where Flutter acts as a client and Firebase as a backend.
 
-The Android application provides mobility and convenience for users who need to access the system on the go.
-
-The mobile version supports:
 \begin{itemize}
-    \item Viewing product information;
-    \item Checking stock levels;
-    \item Recording sales quickly;
-    \item Synchronization with the central database.
+    \item Client – UI, logic, state management;
+    \item Backend – authentication, database, synchronization.
 \end{itemize}
 
-\section{Integration and Synchronization}
+\section{Authentication Module}
 
-All platforms are connected to a centralized database, ensuring data consistency and synchronization between devices.
+Authentication is implemented using Firebase Authentication.
 
-Changes made on one platform are reflected in others in real time or near real time.
+\begin{lstlisting}[language=Dart]
+FirebaseAuth.instance.signInWithEmailAndPassword(...)
+\end{lstlisting}
 
-\section{User Interface Design}
+The authenticated user ID is used to link sales data to users.
 
-The user interface of the system was designed to be intuitive and user-friendly. Special attention was given to:
+\section{Inventory Management Module}
+
+Inventory is stored in Firestore collection \texttt{inventory}.
+
+Each item includes:
+\begin{itemize}
+    \item name;
+    \item quantity;
+    \item price;
+    \item timestamps.
+\end{itemize}
+
+Real-time streams are used to update UI automatically.
+
+\section{Sales Processing Module}
+
+Sales processing includes:
+
+\begin{enumerate}
+    \item checking available quantity;
+    \item updating inventory;
+    \item saving sale to database.
+\end{enumerate}
+
+\section{Testing and Validation}
+
+The system was tested using:
 
 \begin{itemize}
-    \item Clear navigation;
-    \item Minimalistic design;
-    \item Fast access to key features.
+    \item manual testing;
+    \item unit testing;
+    \item real device testing.
+\end{itemize}
+
+\section{Challenges and Solutions}
+
+\begin{itemize}
+    \item Sync delays → optimized queries;
+    \item Data consistency → centralized DB;
+    \item Security → Firebase rules.
 \end{itemize}
 
 \section{Conclusion}
 
-The implementation of the ENDOTECH system demonstrates the feasibility of creating a cross-platform inventory and sales management system. The system successfully integrates multiple platforms and provides a consistent user experience.
+The implementation demonstrates a scalable and efficient system for inventory management using modern technologies.
