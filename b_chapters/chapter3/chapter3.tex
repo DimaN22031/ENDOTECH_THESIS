@@ -1,68 +1,63 @@
-\chapter{Empirical Study / Practical Research (Example Chapter~3)}
-\label{chap:empirical}
+\chapter{System Implementation}
 
-% --- IMPORTANT NOTE FOR STUDENTS ---
-% This is only a suggested structure. 
-% You may adjust, merge, expand, or shorten sections depending on your topic,
-% as long as the choices are approved by your supervisor.
-% Some theses have a large empirical part, others a very small one. 
-% Adapt to your own case.
+\section{Overview of Implementation}
 
-This chapter usually presents the applied or empirical part of the thesis: an experiment, prototype, survey, simulation, or case study.  
-However, the exact scope depends on your project. In some theses, Chapters~2 and~3 are merged into one; in others, this chapter may be split into two separate ones (e.g., “Implementation” and “Evaluation”).
+The ENDOTECH system was implemented as a cross-platform solution supporting Windows desktop, web, and Android platforms. The goal of implementation was to create a unified system that provides consistent functionality across all devices.
 
-\section{Design of the Study (Example Section)}
-\label{sec:design}
-Explain how your empirical/practical work was organized.  
-Typical points to include (adapt as needed):
+\section{Windows Application}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item \textbf{Objectives.} What you wanted to achieve or test.  
-  \item \textbf{Setup.} Hardware, software, datasets, or infrastructure used.  
-  \item \textbf{Participants or subjects (if any).} For surveys, experiments, or usability tests.  
-  \item \textbf{Procedures.} How the study/experiment was carried out, in enough detail to be reproducible.  
+The Windows version of the system provides a full-featured interface for managing inventory and sales. It allows users to:
+
+\begin{itemize}
+    \item Add, edit, and delete products;
+    \item Manage stock levels;
+    \item Record sales transactions;
+    \item Generate reports.
 \end{itemize}
 
-\paragraph{Note.} If your work is implementation-heavy, this section can describe the system architecture, algorithms, or workflows you built. If it is more research-focused, describe the methodology and design choices.
+The desktop application is optimized for performance and ease of use in office environments.
 
-\section{Results of the Study (Example Section)}
-\label{sec:results}
-Present the main outcomes clearly and systematically.  
-Examples:
+\section{Web Application}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Tables or charts with performance benchmarks, error rates, or runtime.  
-  \item Screenshots or diagrams of a prototype or interface.  
-  \item Summaries of survey/interview data.  
+The web version of the system allows users to access the platform through a browser without installing additional software.
+
+Key features include:
+\begin{itemize}
+    \item Remote access to inventory data;
+    \item Real-time updates;
+    \item Responsive design for different screen sizes.
 \end{itemize}
 
-% --- Example figure (replace or remove) ---
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.6\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-  \figsource{Replace with your own chart or prototype screenshot.}
-  \caption{Example chart of study results (dummy figure).}
-  \label{fig:study-results}
-\end{figure}
+This ensures accessibility from any location.
 
-\paragraph{Tip.} Do not over-interpret here — keep deep discussion for Chapter~\ref{chap:discussion}.  
-The focus here is on presenting what you observed.
+\section{Android Application}
 
-\section{Evaluation and Interpretation (Optional)}
-\label{sec:evaluation}
-In some topics it is useful to add a subsection where you briefly evaluate your results against expectations or benchmarks.  
-Examples: compare against a baseline algorithm, test statistical significance, or highlight unexpected patterns.  
-If this does not fit your project, you can skip or merge it into the next chapter.
+The Android application provides mobility and convenience for users who need to access the system on the go.
 
-\section{Sub-Conclusions (for Chapter~3)}
-\label{sec:subconcl3}
-End with a short summary (2–3 paragraphs).  
-Example points:
-
-\begin{itemize}[leftmargin=1.2cm]
-  \item Key empirical findings (what was achieved, measured, or demonstrated).  
-  \item Relation to the aim and hypothesis from the Introduction.  
-  \item How these findings prepare for the next step — either a discussion chapter (Chapter~\ref{chap:discussion}) or the final conclusions (Chapter~\ref{chap:conclusions}).  
+The mobile version supports:
+\begin{itemize}
+    \item Viewing product information;
+    \item Checking stock levels;
+    \item Recording sales quickly;
+    \item Synchronization with the central database.
 \end{itemize}
 
-\paragraph{Reminder.} The conclusions here should be short and local to this chapter. The overall “big picture” conclusions must still be saved for the dedicated \textbf{Conclusions chapter}.
+\section{Integration and Synchronization}
+
+All platforms are connected to a centralized database, ensuring data consistency and synchronization between devices.
+
+Changes made on one platform are reflected in others in real time or near real time.
+
+\section{User Interface Design}
+
+The user interface of the system was designed to be intuitive and user-friendly. Special attention was given to:
+
+\begin{itemize}
+    \item Clear navigation;
+    \item Minimalistic design;
+    \item Fast access to key features.
+\end{itemize}
+
+\section{Conclusion}
+
+The implementation of the ENDOTECH system demonstrates the feasibility of creating a cross-platform inventory and sales management system. The system successfully integrates multiple platforms and provides a consistent user experience.
